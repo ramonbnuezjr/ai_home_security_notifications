@@ -26,6 +26,7 @@ Thumbs.db
 
 # Project specific
 *.pt  # YOLO model weights (download separately)
+yolov8s.pt
 logs/
 *.log
 test_images/
