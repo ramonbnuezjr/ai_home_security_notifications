@@ -1,0 +1,259 @@
+# System Configuration Template
+
+# Camera Configuration
+camera:
+  # Hardware settings
+  resolution:
+    width: 1920
+    height: 1080
+  fps: 15
+  format: "RGB"
+  rotation: 0  # degrees
+  
+  # Capture settings
+  buffer_size: 5  # frames
+  auto_exposure: true
+  auto_white_balance: true
+  
+  # Storage settings
+  save_raw_frames: false
+  compression_quality: 85  # 1-100
+
+# Motion Detection Configuration
+detection:
+  # Algorithm settings
+  algorithm: "mog2"  # mog2, frame_diff, optical_flow
+  sensitivity: 0.7  # 0.0-1.0
+  min_area: 500  # pixels
+  max_area: 50000  # pixels
+  
+  # Background subtraction
+  learning_rate: 0.001
+  history: 500
+  var_threshold: 16
+  
+  # Motion zones
+  zones:
+    - name: "front_door"
+      enabled: true
+      polygon: [[100, 100], [500, 100], [500, 400], [100, 400]]
+      sensitivity_multiplier: 1.0
+    - name: "backyard"
+      enabled: true
+      polygon: [[600, 200], [1000, 200], [1000, 600], [600, 600]]
+      sensitivity_multiplier: 0.8
+  
+  # Scheduling
+  schedule:
+    enabled: true
+    active_hours:
+      - start: "22:00"
+        end: "06:00"
+      - start: "12:00"
+        end: "14:00"
+    days_of_week: [1, 2, 3, 4, 5, 6, 7]  # 1=Monday, 7=Sunday
+
+# AI Classification Configuration
+ai:
+  # Model settings
+  yolo:
+    model_path: "/home/ramon/security_models/yolov8s.pt"  # Using small model for 16GB RAM
+    model_variant: "yolov8s"  # yolov8s, yolov8n (fallback)
+    confidence_threshold: 0.5
+    iou_threshold: 0.45
+    max_detections: 10
+    
+  # Language model settings (optional)
+  llm:
+    enabled: false  # Enable for intelligent event descriptions
+    model_name: "meta-llama/Llama-3.2-3B"  # Using Llama 3.2 3B
+    fallback_model: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"  # Already installed
+    quantization: "4bit"  # 4bit, 8bit, none
+    max_memory_gb: 3
+    description_max_length: 100
+    
+  # Classification rules
+  classification:
+    enabled: true
+    target_classes: []  # Empty = detect all 80 classes
+    ignore_classes: []  # No classes ignored
+    
+    # Threat assessment
+    threat_levels:
+      person: "high"
+      car: "medium"
+      truck: "medium"
+      bicycle: "low"
+      motorcycle: "medium"
+    
+    # Size filtering
+    min_object_size: 0.01  # fraction of frame
+    max_object_size: 0.8   # fraction of frame
+
+# Notification Configuration
+notifications:
+  # General settings
+  enabled: true
+  cooldown_period: 300  # seconds between notifications
+  max_notifications_per_hour: 10
+  
+  # Email settings
+  email:
+    enabled: true
+    smtp_server: "smtp.gmail.com"
+    smtp_port: 587
+    smtp_username: "your_email@gmail.com"
+    smtp_password: "your_app_password"
+    from_address: "security@yourdomain.com"
+    to_addresses:
+      - "user@example.com"
+    subject_template: "Security Alert: {event_type} detected"
+    
+  # SMS settings
+  sms:
+    enabled: false
+    provider: "twilio"  # twilio, aws_sns
+    twilio:
+      account_sid: "your_account_sid"
+      auth_token: "your_auth_token"
+      from_number: "+1234567890"
+      to_numbers:
+        - "+1234567890"
+    
+  # Push notifications
+  push:
+    enabled: false
+    provider: "firebase"  # firebase, custom
+    firebase:
+      server_key: "your_server_key"
+      device_tokens:
+        - "device_token_1"
+        - "device_token_2"
+  
+  # Voice notifications (Whisper)
+  voice:
+    enabled: true
+    whisper_model: "small"  # Using small model for 16GB RAM (better accuracy)
+    whisper_fallback: "base"  # Fallback if performance issues
+    language: "en"
+    text_to_speech: true
+    voice_settings:
+      rate: 150
+      volume: 0.8
+      voice: "en-US-Standard-C"
+    # LLM-enhanced descriptions
+    use_llm_descriptions: false  # Enable to generate natural language event descriptions
+
+# Storage Configuration
+storage:
+  # Paths
+  base_path: "/home/ramon/security_data"
+  video_path: "/home/ramon/security_data/videos"
+  image_path: "/home/ramon/security_data/images"
+  log_path: "/home/ramon/security_data/logs"
+  
+  # Retention policies
+  retention:
+    raw_video_days: 2
+    event_clips_days: 7
+    system_logs_days: 30
+    config_backups_days: 90
+    
+  # Storage limits
+  limits:
+    max_storage_gb: 50
+    cleanup_threshold: 0.8  # cleanup when 80% full
+    emergency_threshold: 0.95  # emergency cleanup at 95%
+
+# System Performance Configuration
+performance:
+  # Resource limits (optimized for 16GB RAM)
+  cpu_limit: 80  # percentage
+  memory_limit: 14  # GB (16GB total, leaving 2GB for system)
+  gpu_enabled: true
+  
+  # Processing settings
+  frame_skip: 1  # process every Nth frame
+  batch_size: 1
+  num_workers: 2
+  
+  # Model loading strategy
+  preload_models: true  # Preload all models at startup (we have RAM for it)
+  lazy_load_llm: true  # Load LLM only when needed for descriptions
+  
+  # Optimization
+  enable_hardware_acceleration: true
+  use_gpu_for_inference: false  # Pi 5 GPU not optimized for AI
+  optimize_for_latency: true
+  model_cache_enabled: true  # Cache model outputs when appropriate
+
+# Security Configuration
+security:
+  # Authentication
+  admin_password_hash: "bcrypt_hash_here"
+  jwt_secret: "your_jwt_secret_key"
+  session_timeout: 3600  # seconds
+  
+  # Network security
+  enable_https: false  # requires SSL certificate
+  allowed_ips: []  # empty = allow all
+  firewall_rules:
+    - port: 22
+      protocol: "tcp"
+      action: "allow"
+    - port: 80
+      protocol: "tcp"
+      action: "allow"
+    - port: 443
+      protocol: "tcp"
+      action: "allow"
+  
+  # Data encryption
+  encrypt_storage: false
+  encrypt_communications: true
+  
+  # Audit logging
+  audit_logging: true
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+# Monitoring Configuration
+monitoring:
+  # Health checks
+  health_check_interval: 60  # seconds
+  service_restart_threshold: 3
+  
+  # Metrics collection
+  metrics:
+    enabled: true
+    collection_interval: 300  # seconds
+    retention_days: 7
+    
+  # Alerting
+  alerts:
+    enabled: true
+    cpu_threshold: 90
+    memory_threshold: 95
+    disk_threshold: 90
+    temperature_threshold: 80  # Celsius
+    
+  # Logging
+  logging:
+    level: "INFO"
+    max_file_size: "10MB"
+    backup_count: 5
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# Development Configuration
+development:
+  debug_mode: false
+  verbose_logging: false
+  mock_camera: false
+  mock_notifications: false
+  
+  # Testing
+  test_mode: false
+  test_data_path: "/home/ramon/test_data"
+  
+  # Development tools
+  enable_profiling: false
+  enable_debug_endpoints: false
