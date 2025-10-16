@@ -314,12 +314,14 @@ chmod 755 /home/security/security_data/*
 
 #### Download YOLOv8 Model
 ```bash
-# Download YOLOv8 small model (leveraging 16GB RAM)
-cd /home/security/security_data/models
-wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s.pt
+# Download YOLOv8 small model to project root
+cd /home/security/ai_home_security_notifications
+wget https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8s.pt
 
-# Download YOLOv8 nano as fallback
-wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt
+# Optional: Download YOLOv8 nano as a faster alternative
+wget https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8n.pt
+
+# Note: Model files are excluded from git (.gitignore) and must be downloaded separately
 
 # Test model loading
 python3 -c "

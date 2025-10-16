@@ -11,6 +11,21 @@ Your AI Home Security system with YOLOv8 object detection is fully operational!
 - ✅ **Object Detection**: YOLOv8s (80 classes) with ~500-1000ms inference
 - ✅ **Integration**: YOLO only runs when motion is detected (efficient!)
 
+## Prerequisites
+
+Before running the system, ensure you have:
+1. **Downloaded the YOLO model:**
+   ```bash
+   cd /home/ramon/ai_projects/ai_home_security_notifications
+   wget https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8s.pt
+   ```
+   *Note: The model file is ~20MB and not included in the git repository.*
+
+2. **Activated the virtual environment:**
+   ```bash
+   source venv/bin/activate
+   ```
+
 ## Run the System
 
 ### Option 1: Full System (Motion + YOLO)

@@ -132,6 +132,21 @@ All project documentation has been updated to reflect the current working state 
 **Want current configuration?**
 → See config/system_config.yaml
 
+## Recent Updates (2025-10-16)
+
+### Model Distribution Changes
+- **YOLO model files** now excluded from git repository (.gitignore)
+- Models must be downloaded separately (documented in all guides)
+- Download command: `wget https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8s.pt`
+- Best practice: Keeps repository lightweight, faster clones
+
+### Documentation Files Updated
+1. **README.md** - Added model download step to installation
+2. **QUICKSTART.md** - Added prerequisites section with model download
+3. **YOLO_INTEGRATION_GUIDE.md** - Model download as first step
+4. **docs/deployment.md** - Updated model setup with correct URLs
+5. **.gitignore** - Added `*.pt` and `yolov8s.pt` exclusions
+
 ## Documentation Status
 
 ✅ All documentation updated and consistent  
@@ -141,7 +156,9 @@ All project documentation has been updated to reflect the current working state 
 ✅ Troubleshooting guides comprehensive  
 ✅ Examples and use cases provided  
 ✅ Development history complete  
+✅ Model download properly documented  
+✅ Best practices for git repository followed  
 
-**Last Updated:** 2025-10-12  
+**Last Updated:** 2025-10-16  
 **Status:** Complete and current
 

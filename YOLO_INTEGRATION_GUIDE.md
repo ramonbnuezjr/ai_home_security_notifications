@@ -20,27 +20,34 @@ YOLOv8 object detection has been successfully integrated with the motion detecti
 
 ## Quick Start
 
-### 1. Test YOLO Installation
+### 1. Download YOLO Model (Required)
 ```bash
 cd /home/ramon/ai_projects/ai_home_security_notifications
+wget https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8s.pt
+```
+
+**Note:** The model file (~20MB) is not included in the git repository and must be downloaded separately.
+
+### 2. Test YOLO Installation
+```bash
 source venv/bin/activate
 python scripts/test_yolo.py
 ```
 
 **Expected output:**
-- ✓ Model downloads (21.5MB, one-time only)
+- ✓ Model found (yolov8s.pt)
 - ✓ Model loads successfully
 - ✓ Inference test passes
 - ✓ Shows 80 available detection classes
 
-### 2. Test Object Detection (No Display Needed)
+### 3. Test Object Detection (No Display Needed)
 ```bash
 python scripts/test_object_detection.py --confidence 0.25
 ```
 
 Takes 5 photos and saves annotated images showing detections.
 
-### 3. Run Live Detection with YOLO
+### 4. Run Live Detection with YOLO
 ```bash
 python scripts/live_motion_detection.py
 ```
