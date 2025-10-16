@@ -66,7 +66,14 @@ Create a privacy-focused, locally-processed home security solution that combines
    sudo apt-get install -y python3-picamera2
    ```
 
-4. **Install Python dependencies**
+4. **Download YOLO model**
+   ```bash
+   # The YOLOv8s model will be automatically downloaded on first run
+   # Or manually download it to the project root:
+   wget https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8s.pt
+   ```
+
+5. **Install Python dependencies**
    ```bash
    # Create virtual environment with access to system packages
    python3 -m venv --system-site-packages venv
@@ -74,18 +81,18 @@ Create a privacy-focused, locally-processed home security solution that combines
    pip install -r requirements.txt
    ```
 
-5. **Configure the system**
+6. **Configure the system**
    ```bash
    cp config/system_config.yaml config/production_config.yaml
    # Edit configuration file with your settings
    ```
 
-6. **Run the system**
+7. **Run the system**
    ```bash
    python main.py
    ```
 
-7. **Access web dashboard**
+8. **Access web dashboard**
    - Open browser to `http://your-pi-ip:5000`
    - Default login: admin/admin (change immediately!)
 
