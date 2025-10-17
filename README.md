@@ -28,13 +28,21 @@ Create a privacy-focused, locally-processed home security solution that combines
                        └──────────────────┘
 ```
 
-### Key Features
-- **Real-time Motion Detection**: Advanced background subtraction with configurable zones
-- **AI Object Classification**: YOLOv8-powered object detection and threat assessment
-- **Multi-channel Notifications**: Email, SMS, push notifications, and voice alerts
-- **Privacy-First Design**: All processing performed locally on Pi 5
-- **Web Dashboard**: Live video feed, event history, and system configuration
-- **Voice Integration**: Whisper-powered voice notifications and processing
+### Key Features ✨
+- ✅ **Real-time Motion Detection**: Advanced background subtraction @ 30 FPS with configurable zones
+- ✅ **AI Object Classification**: YOLOv8s-powered detection (80 object classes)
+  - **CPU Performance**: ~1-2 FPS (500-1000ms per frame)
+  - **With AI HAT+**: Can achieve 20-30 FPS (upgrade recommended)
+  - Smart optimization: Only runs YOLO when motion detected
+- ✅ **Multi-channel Notifications**: Email (HTML), SMS (Twilio), Push (Firebase), Voice (TTS)
+  - Priority-based routing (LOW, MEDIUM, HIGH, CRITICAL)
+  - Intelligent throttling with cooldown periods
+  - Async delivery with queue management
+  - Rich notifications with images and metadata
+  - Working voice alerts with espeak TTS 🤖
+- ✅ **Privacy-First Design**: All processing performed locally on Pi 5 (16GB RAM)
+- 🔄 **Web Dashboard**: Live video feed, event history, and system configuration (In Progress)
+- ✅ **Modular Architecture**: Easy to extend and customize
 
 ## 🚀 Quick Start
 
@@ -87,12 +95,22 @@ Create a privacy-focused, locally-processed home security solution that combines
    # Edit configuration file with your settings
    ```
 
-7. **Run the system**
+7. **Test the notification system** (Optional but recommended)
    ```bash
-   python main.py
+   # Test email notifications
+   python scripts/test_email_notification.py
+   
+   # Test all notification services
+   python scripts/test_notifications.py
    ```
 
-8. **Access web dashboard**
+8. **Run live detection with notifications**
+   ```bash
+   # Full system demo
+   python scripts/live_detection_with_notifications.py
+   ```
+
+9. **Access web dashboard** (Coming in Epic 5)
    - Open browser to `http://your-pi-ip:5000`
    - Default login: admin/admin (change immediately!)
 
@@ -109,8 +127,13 @@ Create a privacy-focused, locally-processed home security solution that combines
 - **[Task Breakdown](docs/task_breakdown.md)** - Detailed implementation tasks with dependencies
 - **[Risk Management](docs/risks.md)** - Technical and project risks with mitigation strategies
 
-### Configuration
+### Configuration & Guides
+- **[Quick Reference](QUICK_REFERENCE.md)** - ⚡ Command cheat sheet
 - **[System Configuration](config/system_config.yaml)** - Complete configuration template
+- **[Notification System Guide](docs/NOTIFICATION_SYSTEM.md)** - Comprehensive notification setup
+- **[Notification Quick Start](NOTIFICATION_QUICKSTART.md)** - 5-minute notification setup
+- **[Hardware Upgrades](docs/HARDWARE_UPGRADES.md)** - Performance optimization guide
+- **[Phase 1 Complete](PHASE1_COMPLETE.md)** - 🎉 Summary of achievements
 - **[Project Status](project_status.md)** - Current project status and milestones
 - **[Activity Log](activity_log.md)** - Development history and decisions
 
@@ -139,25 +162,34 @@ ai_home_security_notifications/
 
 ## 🎯 Current Status
 
-**Phase:** Architecture Complete / Ready for Implementation
+**Phase:** Core System Operational - Phase 1 Complete ✅
 
-### Completed
-- ✅ System architecture documentation
-- ✅ Technical specifications
-- ✅ Configuration template
-- ✅ Risk management framework
-- ✅ Development workflow
-- ✅ Deployment guide
+### Completed ✅
+- ✅ **Epic 1: Hardware & Camera** - Pi 5 16GB + Camera Module @ 1920x1080
+- ✅ **Epic 2: Motion Detection** - Real-time detection @ 30 FPS
+- ✅ **Epic 3: AI Classification** - YOLOv8s object detection (80 classes, ~1-2 FPS on CPU)
+- ✅ **Epic 4: Notification System** - Multi-channel alerts (Email, SMS, Push, Voice)
+  - Voice notifications fully operational with espeak
+  - Email/SMS/Push configured (need credentials)
+  - Intelligent throttling and async delivery
+- ✅ System architecture and documentation
+- ✅ Test scripts and integration demos
+- ✅ Configuration system
 
-### In Progress
-- 🔄 Hardware procurement (Pi 5 delivery pending)
-- 🔄 Development environment setup
+### Performance Notes
+- Motion detection alone: **30 FPS** ⚡
+- Motion + YOLO (CPU): **1-2 FPS** (expected behavior)
+- **Recommended upgrade**: AI HAT+ (Hailo-8L) for 20-30 FPS with YOLO
+
+### In Progress 🔄
+- 🔄 Epic 5: Web Dashboard & Monitoring
+- 🔄 Epic 6: Security & Privacy Controls
 
 ### Next Steps
-1. Complete hardware setup
-2. Implement Epic 1: Hardware Setup & Camera Integration
-3. Begin motion detection pipeline development
-4. Set up CI/CD pipeline
+1. Implement web dashboard with live video feed
+2. Create event history database
+3. Build system configuration UI
+4. Add user authentication system
 
 ## 🛠️ Development
 
