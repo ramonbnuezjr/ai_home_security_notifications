@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Monitoring - AI Security System{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/monitoring.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="monitoring-container">
+    <h1 class="page-title">System Monitoring</h1>
+    
+    <!-- System Health -->
+    <div class="card health-card">
+        <div class="card-header">
+            <h2>System Health</h2>
+            <span id="health-status" class="status-badge status-healthy">Healthy</span>
+        </div>
+        <div class="card-body">
+            <div id="health-details" class="health-details">
+                <div class="loading">Loading health status...</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Performance Metrics -->
+    <div class="metrics-grid">
+        <div class="card">
+            <div class="card-header">
+                <h3>CPU Usage</h3>
+                <span id="cpu-current">-</span>
+            </div>
+            <div class="card-body">
+                <canvas id="cpu-chart"></canvas>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h3>Memory Usage</h3>
+                <span id="memory-current">-</span>
+            </div>
+            <div class="card-body">
+                <canvas id="memory-chart"></canvas>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h3>Disk Usage</h3>
+                <span id="disk-current">-</span>
+            </div>
+            <div class="card-body">
+                <canvas id="disk-chart"></canvas>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h3>Temperature</h3>
+                <span id="temp-current">-</span>
+            </div>
+            <div class="card-body">
+                <canvas id="temp-chart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Database Statistics -->
+    <div class="card">
+        <div class="card-header">
+            <h2>Database Statistics</h2>
+            <button class="btn btn-secondary btn-sm" onclick="refreshDatabaseStats()">Refresh</button>
+        </div>
+        <div class="card-body">
+            <div id="db-stats" class="db-stats-grid">
+                <div class="loading">Loading database statistics...</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Stream Status -->
+    <div class="card">
+        <div class="card-header">
+            <h2>Video Stream Status</h2>
+        </div>
+        <div class="card-body">
+            <div id="stream-status" class="stream-status">
+                <div class="loading">Loading stream status...</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/monitoring.js') }}"></script>
+{% endblock %}
+
+

@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Events - AI Security System{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/events.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="events-container">
+    <h1 class="page-title">Event History</h1>
+    
+    <!-- Filters -->
+    <div class="card filters-card">
+        <div class="card-body">
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label for="event-type-filter">Event Type</label>
+                    <select id="event-type-filter" onchange="applyFilters()">
+                        <option value="">All Types</option>
+                        <option value="motion">Motion</option>
+                        <option value="object_detected">Object Detected</option>
+                        <option value="alert">Alert</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="severity-filter">Severity</label>
+                    <select id="severity-filter" onchange="applyFilters()">
+                        <option value="">All Severities</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                        <option value="critical">Critical</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="start-date-filter">Start Date</label>
+                    <input type="date" id="start-date-filter" onchange="applyFilters()">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="end-date-filter">End Date</label>
+                    <input type="date" id="end-date-filter" onchange="applyFilters()">
+                </div>
+                
+                <div class="filter-actions">
+                    <button class="btn btn-primary" onclick="applyFilters()">Apply</button>
+                    <button class="btn btn-secondary" onclick="clearFilters()">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Event Statistics -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-content">
+                <div class="stat-value" id="total-events">-</div>
+                <div class="stat-label">Total Events</div>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">🔴</div>
+            <div class="stat-content">
+                <div class="stat-value" id="high-severity-events">-</div>
+                <div class="stat-label">High Severity</div>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">👤</div>
+            <div class="stat-content">
+                <div class="stat-value" id="person-detections">-</div>
+                <div class="stat-label">Person Detections</div>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">🚗</div>
+            <div class="stat-content">
+                <div class="stat-value" id="vehicle-detections">-</div>
+                <div class="stat-label">Vehicle Detections</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Events List -->
+    <div class="card">
+        <div class="card-header">
+            <h2>Events</h2>
+            <div class="view-toggle">
+                <button id="list-view-btn" class="btn btn-sm active" onclick="setView('list')">List</button>
+                <button id="gallery-view-btn" class="btn btn-sm" onclick="setView('gallery')">Gallery</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="events-list" class="events-list-view">
+                <div class="loading">Loading events...</div>
+            </div>
+            
+            <!-- Pagination -->
+            <div id="pagination" class="pagination" style="display: none;">
+                <button class="btn btn-secondary" onclick="prevPage()" id="prev-btn">Previous</button>
+                <span id="page-info">Page 1 of 1</span>
+                <button class="btn btn-secondary" onclick="nextPage()" id="next-btn">Next</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Event Detail Modal -->
+<div id="event-modal" class="modal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h2 id="modal-title">Event Details</h2>
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <!-- Event details will be loaded here -->
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/events.js') }}"></script>
+{% endblock %}
+
+

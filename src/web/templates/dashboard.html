@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - AI Security System{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h1 class="page-title">Security Dashboard</h1>
+    
+    <!-- Alert Banner -->
+    <div id="alert-banner" class="alert-banner" style="display: none;">
+        <span id="alert-message"></span>
+        <button onclick="closeAlert()" class="alert-close">&times;</button>
+    </div>
+    
+    <!-- Stats Overview -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">📹</div>
+            <div class="stat-content">
+                <div class="stat-value" id="stat-events-today">-</div>
+                <div class="stat-label">Events Today</div>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-content">
+                <div class="stat-value" id="stat-detections">-</div>
+                <div class="stat-label">Detections</div>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">📧</div>
+            <div class="stat-content">
+                <div class="stat-value" id="stat-notifications">-</div>
+                <div class="stat-label">Notifications Sent</div>
+            </div>
+        </div>
+        
+        <div class="stat-card" id="system-health-card">
+            <div class="stat-icon">💚</div>
+            <div class="stat-content">
+                <div class="stat-value" id="stat-health">Healthy</div>
+                <div class="stat-label">System Status</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Grid -->
+    <div class="main-grid">
+        <!-- Live Video Feed -->
+        <div class="card video-card">
+            <div class="card-header">
+                <h2>Live Video Feed</h2>
+                <div class="stream-controls">
+                    <span id="stream-status" class="status-badge status-inactive">Offline</span>
+                    <button id="toggle-stream-btn" class="btn btn-primary" onclick="toggleStream()">
+                        Start Stream
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="video-container">
+                    <img id="video-stream" src="" alt="Video stream not started" style="display: none;">
+                    <div id="video-placeholder" class="video-placeholder">
+                        <div class="placeholder-content">
+                            <span class="placeholder-icon">📹</span>
+                            <p>Click "Start Stream" to view live video</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <span id="stream-fps">FPS: -</span>
+                    <span id="stream-clients">Clients: -</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Events -->
+        <div class="card events-card">
+            <div class="card-header">
+                <h2>Recent Events</h2>
+                <a href="/events" class="btn btn-secondary btn-sm">View All</a>
+            </div>
+            <div class="card-body">
+                <div id="recent-events-list" class="events-list">
+                    <div class="loading">Loading events...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- System Metrics -->
+    <div class="card metrics-card">
+        <div class="card-header">
+            <h2>System Metrics</h2>
+            <button class="btn btn-secondary btn-sm" onclick="refreshMetrics()">Refresh</button>
+        </div>
+        <div class="card-body">
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <div class="metric-label">CPU Usage</div>
+                    <div class="progress-bar">
+                        <div id="cpu-bar" class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="metric-value" id="cpu-value">-</div>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-label">Memory Usage</div>
+                    <div class="progress-bar">
+                        <div id="memory-bar" class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="metric-value" id="memory-value">-</div>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-label">Disk Usage</div>
+                    <div class="progress-bar">
+                        <div id="disk-bar" class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="metric-value" id="disk-value">-</div>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-label">Temperature</div>
+                    <div class="progress-bar">
+                        <div id="temp-bar" class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="metric-value" id="temp-value">-</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}
+
+

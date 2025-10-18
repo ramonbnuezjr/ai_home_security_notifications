@@ -215,3 +215,17 @@ def reload_config() -> None:
     if _config is not None:
         _config.reload()
 
+
+def load_config(config_path: Optional[str] = None) -> Dict[str, Any]:
+    """
+    Load configuration and return as dictionary.
+    
+    Args:
+        config_path: Path to configuration file
+        
+    Returns:
+        Configuration dictionary
+    """
+    config_instance = get_config(config_path)
+    return config_instance._config
+

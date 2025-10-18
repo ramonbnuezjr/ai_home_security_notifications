@@ -172,6 +172,13 @@ ai_home_security_notifications/
   - Voice notifications fully operational with espeak
   - Email/SMS/Push configured (need credentials)
   - Intelligent throttling and async delivery
+- ✅ **Epic 5: Web Dashboard & Monitoring** - Complete web interface
+  - Live video streaming (MJPEG)
+  - Event history with filtering and search
+  - System monitoring (CPU, memory, temperature)
+  - Configuration interface
+  - SQLite database with event logging
+  - Database integration with live detection
 - ✅ System architecture and documentation
 - ✅ Test scripts and integration demos
 - ✅ Configuration system
@@ -182,14 +189,13 @@ ai_home_security_notifications/
 - **Recommended upgrade**: AI HAT+ (Hailo-8L) for 20-30 FPS with YOLO
 
 ### In Progress 🔄
-- 🔄 Epic 5: Web Dashboard & Monitoring
 - 🔄 Epic 6: Security & Privacy Controls
 
 ### Next Steps
-1. Implement web dashboard with live video feed
-2. Create event history database
-3. Build system configuration UI
-4. Add user authentication system
+1. Add user authentication system (Epic 6)
+2. Implement data encryption
+3. Add privacy controls
+4. Set up audit logging
 
 ## 🛠️ Development
 

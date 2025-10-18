@@ -165,6 +165,57 @@ storage:
     cleanup_threshold: 0.8  # cleanup when 80% full
     emergency_threshold: 0.95  # emergency cleanup at 95%
 
+# Database Configuration
+database:
+  # Primary database location (SSD - better performance, less SD wear)
+  path: "/mnt/ssd/security_data/database/security.db"
+  # Fallback location (SD card) if SSD not available
+  fallback_path: "/home/ramon/security_data/database/security.db"
+  # Create parent directories automatically
+  auto_create_dirs: true
+  # Database settings
+  connection_timeout: 30
+  journal_mode: "WAL"  # Write-Ahead Logging for better concurrency
+  synchronous: "NORMAL"  # Balance between safety and performance
+  # Retention policies
+  retention:
+    events_days: 30
+    metrics_days: 7
+    notifications_days: 30
+    config_history_days: 90
+  # Maintenance
+  auto_vacuum: true
+  vacuum_interval_hours: 168  # Weekly
+  backup_enabled: true
+  backup_interval_hours: 24
+  backup_location: "/home/ramon/security_data/backups"
+
+# Web Dashboard Configuration
+web:
+  enabled: true
+  host: "0.0.0.0"  # Listen on all interfaces (access from any device on network)
+  port: 5000
+  debug: false
+  # Security
+  secret_key: "CHANGE-THIS-TO-SECURE-RANDOM-KEY-IN-PRODUCTION"
+  session_timeout: 3600  # seconds (1 hour)
+  max_content_length: 16777216  # 16MB max upload size
+  # Performance
+  threaded: true
+  use_reloader: false  # Disable in production (only use in development)
+  # CORS settings (for future mobile app integration)
+  cors_enabled: false
+  cors_origins: []
+  # Rate limiting (prevent abuse)
+  rate_limit_enabled: true
+  rate_limit_per_minute: 60
+  # Video streaming settings
+  stream:
+    fps: 15  # Target FPS for web stream (lower = less bandwidth)
+    quality: 85  # JPEG quality (1-100)
+    max_clients: 5  # Maximum concurrent stream viewers
+    buffer_size: 2  # Frame buffer size
+
 # System Performance Configuration
 performance:
   # Resource limits (optimized for 16GB RAM)

@@ -1,0 +1,143 @@
+/* Settings page styles */
+
+.settings-container {
+    animation: fadeIn 0.5s ease-in;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tab-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.tab-btn.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+/* Tab Content */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.config-section {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+/* Config Display */
+.config-group {
+    margin-bottom: 2rem;
+}
+
+.config-group h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.config-item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--bg-color);
+}
+
+.config-label {
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.config-value {
+    font-family: 'Courier New', monospace;
+    color: var(--text-primary);
+}
+
+.config-value.boolean-true {
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+.config-value.boolean-false {
+    color: var(--danger-color);
+    font-weight: 600;
+}
+
+.config-value.redacted {
+    color: var(--warning-color);
+    font-style: italic;
+}
+
+/* Form Elements (for future) */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.settings-note {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-left: 1rem;
+}
+
+@media (max-width: 768px) {
+    .config-item {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    
+    .tabs {
+        overflow-x: auto;
+    }
+}
+
+

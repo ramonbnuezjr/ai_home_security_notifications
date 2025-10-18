@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - AI Security System{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/settings.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="settings-container">
+    <h1 class="page-title">System Settings</h1>
+    
+    <div class="alert alert-info">
+        <strong>Note:</strong> Configuration editing will be fully enabled in Epic 6 with authentication.
+        Currently showing read-only configuration.
+    </div>
+    
+    <!-- Settings Tabs -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('camera')">Camera</button>
+        <button class="tab-btn" onclick="showTab('detection')">Motion Detection</button>
+        <button class="tab-btn" onclick="showTab('ai')">AI Classification</button>
+        <button class="tab-btn" onclick="showTab('notifications')">Notifications</button>
+        <button class="tab-btn" onclick="showTab('storage')">Storage</button>
+        <button class="tab-btn" onclick="showTab('web')">Web Dashboard</button>
+    </div>
+    
+    <!-- Tab Content -->
+    <div class="card">
+        <div class="card-body">
+            <div id="camera-tab" class="tab-content active">
+                <h2>Camera Configuration</h2>
+                <div id="camera-config" class="config-section">
+                    <div class="loading">Loading configuration...</div>
+                </div>
+            </div>
+            
+            <div id="detection-tab" class="tab-content">
+                <h2>Motion Detection Configuration</h2>
+                <div id="detection-config" class="config-section">
+                    <div class="loading">Loading configuration...</div>
+                </div>
+            </div>
+            
+            <div id="ai-tab" class="tab-content">
+                <h2>AI Classification Configuration</h2>
+                <div id="ai-config" class="config-section">
+                    <div class="loading">Loading configuration...</div>
+                </div>
+            </div>
+            
+            <div id="notifications-tab" class="tab-content">
+                <h2>Notifications Configuration</h2>
+                <div id="notifications-config" class="config-section">
+                    <div class="loading">Loading configuration...</div>
+                </div>
+            </div>
+            
+            <div id="storage-tab" class="tab-content">
+                <h2>Storage Configuration</h2>
+                <div id="storage-config" class="config-section">
+                    <div class="loading">Loading configuration...</div>
+                </div>
+            </div>
+            
+            <div id="web-tab" class="tab-content">
+                <h2>Web Dashboard Configuration</h2>
+                <div id="web-config" class="config-section">
+                    <div class="loading">Loading configuration...</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card-footer">
+            <button class="btn btn-secondary" onclick="resetConfig()" disabled>Reset</button>
+            <button class="btn btn-primary" onclick="saveConfig()" disabled>Save Changes</button>
+            <p class="settings-note">Configuration editing will be enabled in Epic 6</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/settings.js') }}"></script>
+{% endblock %}
+
+

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AI Security System{% endblock %}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔒</text></svg>">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="nav-icon">🔒</span>
+                <span class="nav-title">AI Security System</span>
+            </div>
+            
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">
+                    <span class="nav-link-icon">📊</span>
+                    Dashboard
+                </a></li>
+                <li><a href="/events" class="nav-link {% if request.path == '/events' %}active{% endif %}">
+                    <span class="nav-link-icon">📹</span>
+                    Events
+                </a></li>
+                <li><a href="/monitoring" class="nav-link {% if request.path == '/monitoring' %}active{% endif %}">
+                    <span class="nav-link-icon">📈</span>
+                    Monitoring
+                </a></li>
+                <li><a href="/settings" class="nav-link {% if request.path == '/settings' %}active{% endif %}">
+                    <span class="nav-link-icon">⚙️</span>
+                    Settings
+                </a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 AI Home Security System | Built with ❤️ for privacy-focused security</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/api.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
+
+

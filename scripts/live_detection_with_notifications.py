@@ -25,9 +25,11 @@ from src.services.camera_service import CameraService
 from src.services.motion_detection_service import MotionDetectionService
 from src.services.object_detection_service import ObjectDetectionService
 from src.services.notification_manager import NotificationManager
+from src.services.database_service import DatabaseService, Event, DetectedObject, NotificationRecord
 from src.services.base_notification_service import NotificationContext, NotificationPriority
 from src.utils.config import Config
 from src.utils.logger import get_logger
+from datetime import datetime
 
 
 def determine_priority(detected_objects, threat_level):
@@ -73,6 +75,13 @@ def main():
     object_detector = ObjectDetectionService(config)
     notifier = NotificationManager(config)
     
+    # Initialize database
+    db_config = config.get('database', {})
+    db_path = db_config.get('path', '/home/ramon/security_data/database/security.db')
+    fallback_path = db_config.get('fallback_path', '/home/ramon/security_data/database/security.db')
+    print(f"Initializing database at {db_path}...")
+    db = DatabaseService(db_path, fallback_path)
+    
     # Start services
     print("Starting camera...")
     if not camera.start():
@@ -92,6 +101,7 @@ def main():
     print(f"\n✅ System ready!")
     print(f"   Camera: {camera.resolution}")
     print(f"   Notification services: {len(notifier.services)}")
+    print(f"   Database: Connected")
     print(f"   YOLO: {'Enabled' if yolo_enabled else 'Disabled'}")
     print(f"   Notifications: {'Enabled' if notifications_enabled else 'Disabled'}")
     print()
@@ -144,6 +154,45 @@ def main():
                         threat_level = 'medium'  # Default threat level
                         priority = determine_priority(detected_labels, threat_level)
                         
+                        # Save event to database
+                        severity_map = {
+                            NotificationPriority.LOW: 'low',
+                            NotificationPriority.MEDIUM: 'medium',
+                            NotificationPriority.HIGH: 'high',
+                            NotificationPriority.CRITICAL: 'critical'
+                        }
+                        
+                        event = Event(
+                            timestamp=datetime.now(),
+                            event_type='object_detected',
+                            severity=severity_map.get(priority, 'medium'),
+                            zone_name='Camera 1',
+                            motion_percentage=motion_event.motion_percentage,
+                            threat_level=threat_level,
+                            metadata={
+                                'detected_objects': detected_labels,
+                                'frame_count': frame_count
+                            }
+                        )
+                        
+                        # Save detected objects
+                        db_objects = [
+                            DetectedObject(
+                                event_id=0,  # Will be set after event insert
+                                class_name=obj.class_name,
+                                confidence=obj.confidence,
+                                bbox_x1=int(obj.bounding_box[0]),
+                                bbox_y1=int(obj.bounding_box[1]),
+                                bbox_x2=int(obj.bounding_box[2]),
+                                bbox_y2=int(obj.bounding_box[3]),
+                                threat_level=threat_level
+                            )
+                            for obj in detection_result.objects
+                        ]
+                        
+                        # Save to database
+                        event_id = db.create_event(event, db_objects)
+                        
                         # Create notification context
                         context = NotificationContext(
                             event_type='security_alert',
@@ -160,7 +209,7 @@ def main():
                         
                         last_notification_time = current_time
                         
-                        print(f"\n📧 Notification sent: {detected_labels} detected!")
+                        print(f"\n📧 Event {event_id} logged and notification sent: {detected_labels} detected!")
                         print(f"   Priority: {priority.value}")
                         print(f"   Motion: {motion_event.motion_percentage:.1f}%")
                         print()
@@ -262,6 +311,13 @@ def main():
             print(f"    Failed: {service_stats['failed_count']}")
             print(f"    Success rate: {service_stats['success_rate']:.1%}")
         
+        print(f"\nDatabase:")
+        db_stats = db.get_database_stats()
+        print(f"  Total events: {db_stats['total_events']}")
+        print(f"  Total objects detected: {db_stats['total_objects']}")
+        print(f"  Database size: {db_stats.get('database_size_mb', 0):.2f} MB")
+        
+        db.close()
         print("\n✅ System stopped cleanly\n")
     
     return 0
