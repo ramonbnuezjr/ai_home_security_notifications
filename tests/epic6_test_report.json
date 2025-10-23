@@ -1,0 +1,29 @@
+{
+  "timestamp": "2025-10-23T08:30:01.160146",
+  "duration_seconds": 32.432044,
+  "summary": {
+    "total_tests": 83,
+    "passed": 77,
+    "failed": 6,
+    "errors": 0,
+    "skipped": 0,
+    "cli_passed": false
+  },
+  "suites": {
+    "Unit Tests": {
+      "tests_run": 74,
+      "failures": 3,
+      "errors": 0,
+      "skipped": 0,
+      "success": false
+    },
+    "Integration Tests": {
+      "tests_run": 9,
+      "failures": 3,
+      "errors": 0,
+      "skipped": 0,
+      "success": false
+    }
+  },
+  "all_passed": false
+}

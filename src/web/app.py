@@ -14,10 +14,16 @@ from src.web.api.stream import stream_bp
 from src.web.api.metrics import metrics_bp
 from src.web.api.config_api import config_bp
 from src.web.api.notifications import notifications_bp
+from src.web.api.auth import auth_bp
+from src.web.api.audit import audit_bp
+from src.web.api.privacy import privacy_bp
 
 # Import services
 from src.services.database_service import DatabaseService
 from src.services.camera_service import CameraService
+from src.services.auth_service import AuthService
+from src.services.encryption_service import EncryptionService
+from src.services.privacy_service import PrivacyService
 from src.utils.config import load_config
 
 
@@ -64,10 +70,32 @@ def create_app(config_path: str = None):
     )
     app.config['DB_SERVICE'] = db_service
     
+    logger.info("Initializing authentication service...")
+    auth_service = AuthService(
+        database_service=db_service,
+        jwt_secret=app.config['SECRET_KEY'],
+        jwt_expiry_hours=web_config.get('jwt_expiry_hours', 24)
+    )
+    app.config['AUTH_SERVICE'] = auth_service
+    
+    logger.info("Initializing encryption service...")
+    encryption_service = EncryptionService()
+    app.config['ENCRYPTION_SERVICE'] = encryption_service
+    
+    logger.info("Initializing privacy service...")
+    privacy_service = PrivacyService(
+        database_service=db_service,
+        media_base_path=system_config.get('storage', {}).get('media_path', '/tmp/ai_security_media')
+    )
+    app.config['PRIVACY_SERVICE'] = privacy_service
+    
     logger.info("Camera service will be initialized on first stream request")
     app.config['CAMERA_SERVICE'] = None  # Lazy load when needed
     
     # Register blueprints
+    app.register_blueprint(auth_bp, url_prefix='/api/auth')
+    app.register_blueprint(audit_bp, url_prefix='/api/audit')
+    app.register_blueprint(privacy_bp, url_prefix='/api/privacy')
     app.register_blueprint(events_bp, url_prefix='/api/events')
     app.register_blueprint(stream_bp, url_prefix='/api/stream')
     app.register_blueprint(metrics_bp, url_prefix='/api/metrics')
@@ -79,6 +107,11 @@ def create_app(config_path: str = None):
     def index():
         """Dashboard home page."""
         return render_template('dashboard.html')
+    
+    @app.route('/login')
+    def login_page():
+        """Login page."""
+        return render_template('login.html')
     
     @app.route('/events')
     def events_page():
@@ -94,6 +127,11 @@ def create_app(config_path: str = None):
     def monitoring_page():
         """System monitoring page."""
         return render_template('monitoring.html')
+    
+    @app.route('/users')
+    def users_page():
+        """User management page (admin only)."""
+        return render_template('users.html')
     
     @app.route('/health')
     def health_check():
@@ -149,5 +187,6 @@ if __name__ == '__main__':
     )
     
     run_server()
+
 
 

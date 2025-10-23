@@ -2,10 +2,20 @@
 
 ## 🚀 Start the System
 
+### Detection System
 ```bash
 cd /home/ramon/ai_projects/ai_home_security_notifications
 source venv/bin/activate
 python scripts/live_detection_with_notifications.py
+```
+
+### Web Dashboard
+```bash
+# In a separate terminal
+cd /home/ramon/ai_projects/ai_home_security_notifications
+source venv/bin/activate
+python scripts/run_dashboard.py
+# Access at: http://localhost:5000 or http://<pi-ip>:5000
 ```
 
 ## 🎮 Controls (in video window)
@@ -42,10 +52,36 @@ python scripts/live_detection_with_notifications.py
 
 ```
 Main script:       scripts/live_detection_with_notifications.py
+Web dashboard:     scripts/run_dashboard.py
+Security CLI:      scripts/epic6_cli.py
 Config:            config/system_config.yaml
+Database:          /home/ramon/security_data/database/security.db
 Test email:        scripts/test_email_notification.py
 Test all notifs:   scripts/test_notifications.py
 Documentation:     docs/NOTIFICATION_SYSTEM.md
+```
+
+## 🔒 Security Management (Epic 6 - Testing Phase)
+
+```bash
+# Check system status
+python scripts/epic6_cli.py status
+
+# User management
+python scripts/epic6_cli.py user create
+python scripts/epic6_cli.py user list
+python scripts/epic6_cli.py user delete <username>
+
+# Encryption
+python scripts/epic6_cli.py encryption init
+python scripts/epic6_cli.py encryption generate-cert
+
+# Privacy & GDPR
+python scripts/epic6_cli.py privacy enforce-retention
+
+# Audit logs
+python scripts/epic6_cli.py audit logs --limit 50
+python scripts/epic6_cli.py audit stats --days 7
 ```
 
 ## 🐛 Troubleshooting
@@ -84,6 +120,8 @@ camera:
 - **Full Guide**: `docs/NOTIFICATION_SYSTEM.md`
 - **Upgrades**: `docs/HARDWARE_UPGRADES.md`
 - **Phase 1 Summary**: `PHASE1_COMPLETE.md`
+- **Epic 5 Complete**: `EPIC5_COMPLETE.md`
+- **Web Dashboard**: Access at `http://localhost:5000`
 
 ## 🆘 Help
 

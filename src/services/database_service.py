@@ -159,9 +159,10 @@ class DatabaseService:
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     timestamp DATETIME NOT NULL,
                     event_type VARCHAR(50) NOT NULL,
-                    severity VARCHAR(20) NOT NULL,
+                    severity VARCHAR(20) DEFAULT 'medium',
                     zone_name VARCHAR(100),
                     motion_percentage FLOAT,
+                    confidence FLOAT DEFAULT 0.0,
                     threat_level VARCHAR(20),
                     image_path VARCHAR(500),
                     video_path VARCHAR(500),
@@ -276,15 +277,19 @@ class DatabaseService:
                 ON config_history(timestamp)
             """)
             
-            # Users table (for Epic 6)
+            # Users table (for Epic 6) - Full schema with all security columns
             cursor.execute("""
                 CREATE TABLE IF NOT EXISTS users (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     username VARCHAR(100) UNIQUE NOT NULL,
                     password_hash VARCHAR(255) NOT NULL,
-                    email VARCHAR(255),
+                    email VARCHAR(255) UNIQUE,
                     role VARCHAR(50) DEFAULT 'user',
                     is_active BOOLEAN DEFAULT 1,
+                    mfa_enabled BOOLEAN DEFAULT 0,
+                    mfa_secret VARCHAR(255),
+                    failed_login_attempts INTEGER DEFAULT 0,
+                    last_failed_login DATETIME,
                     last_login DATETIME,
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -294,6 +299,11 @@ class DatabaseService:
             cursor.execute("""
                 CREATE INDEX IF NOT EXISTS idx_users_username 
                 ON users(username)
+            """)
+            
+            cursor.execute("""
+                CREATE INDEX IF NOT EXISTS idx_users_email 
+                ON users(email)
             """)
             
             conn.commit()
@@ -741,5 +751,9 @@ class DatabaseService:
     def close(self):
         """Close database connections."""
         logger.info("Database service closed")
+
+
+
+
 
 
