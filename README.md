@@ -137,64 +137,116 @@ Create a privacy-focused, locally-processed home security solution that combines
 - **[System Architecture](docs/architecture.md)** - Complete system design and component interactions
 - **[Technical Specifications](docs/technical_specs.md)** - Hardware requirements, software stack, and performance targets
 - **[Deployment Guide](docs/deployment.md)** - Step-by-step Pi 5 setup and installation
-- **[Development Workflow](docs/development_workflow.md)** - Development environment, testing, and CI/CD
+- **[Model Selection Rationale](docs/model_selection_rationale.md)** - AI model selection and comparison
 
-### Project Management
-- **[Epics and User Stories](docs/epics_and_stories.md)** - Feature breakdown with acceptance criteria
-- **[Task Breakdown](docs/task_breakdown.md)** - Detailed implementation tasks with dependencies
-- **[Risk Management](docs/risks.md)** - Technical and project risks with mitigation strategies
-
-### Configuration & Guides
+### User Guides
 - **[Quick Reference](QUICK_REFERENCE.md)** - ⚡ Command cheat sheet
-- **[Authentication Guide](docs/AUTHENTICATION_GUIDE.md)** - 🔐 Complete security & auth setup
+- **[Quick Start Guide](docs/guides/QUICKSTART.md)** - Get up and running in minutes
+- **[Authentication Guide](docs/guides/AUTHENTICATION_GUIDE.md)** - 🔐 Complete security & auth setup
+- **[Notification System Guide](docs/guides/NOTIFICATION_SYSTEM.md)** - Comprehensive notification setup
+- **[Notification Quick Start](docs/guides/NOTIFICATION_QUICKSTART.md)** - 5-minute notification setup
+- **[YOLO Integration Guide](docs/guides/YOLO_INTEGRATION_GUIDE.md)** - AI object detection setup
+- **[Hardware Upgrades](docs/guides/HARDWARE_UPGRADES.md)** - Performance optimization guide
+
+### Development
+- **[Development Workflow](docs/development/development_workflow.md)** - Development environment, testing, and CI/CD
+- **[Contributing Guidelines](docs/development/contributing.md)** - How to contribute to the project
+
+### Project Planning
+- **[Epics and User Stories](docs/planning/epics_and_stories.md)** - Feature breakdown with acceptance criteria
+- **[Task Breakdown](docs/planning/task_breakdown.md)** - Detailed implementation tasks with dependencies
+- **[Risk Management](docs/planning/risks.md)** - Technical and project risks with mitigation strategies
+
+### Milestones & Achievements
+- **[Phase 1 Complete](docs/milestones/PHASE1_COMPLETE.md)** - 🎉 Initial system achievements
+- **[Epic 4 Complete](docs/milestones/EPIC4_NOTIFICATION_SYSTEM_COMPLETE.md)** - Notification system completion
+- **[Epic 5 Complete](docs/milestones/EPIC5_COMPLETE.md)** - Web dashboard completion
+- **[Epic 6 Complete](docs/milestones/EPIC6_COMPLETE.md)** - Security & privacy completion
+- **[Integration Complete](docs/milestones/INTEGRATION_COMPLETE.md)** - Full system integration
+
+### Project Tracking
+- **[Project Status](project/project_status.md)** - Current project status and milestones
+- **[Activity Log](project/activity_log.md)** - Development history and decisions
 - **[System Configuration](config/system_config.yaml)** - Complete configuration template
-- **[Notification System Guide](docs/NOTIFICATION_SYSTEM.md)** - Comprehensive notification setup
-- **[Notification Quick Start](NOTIFICATION_QUICKSTART.md)** - 5-minute notification setup
-- **[Hardware Upgrades](docs/HARDWARE_UPGRADES.md)** - Performance optimization guide
-- **[Phase 1 Complete](PHASE1_COMPLETE.md)** - 🎉 Summary of achievements
-- **[Project Status](project_status.md)** - Current project status and milestones
-- **[Activity Log](activity_log.md)** - Development history and decisions
 
 ## 🏗️ Project Structure
 
 ```
 ai_home_security_notifications/
-├── README.md                    # This file
-├── project_status.md           # Current project status
-├── activity_log.md             # Development history
-├── contributing.md             # Contribution guidelines
+├── README.md                    # Project overview and quick start
+├── CHANGELOG.md                 # Version history
+├── QUICK_REFERENCE.md          # Command cheat sheet
+│
 ├── config/
-│   └── system_config.yaml      # Configuration template
-├── docs/
+│   ├── system_config.yaml      # Main configuration
+│   └── certs/                  # TLS certificates (generated)
+│
+├── docs/                       # 📚 Documentation
 │   ├── architecture.md         # System architecture
 │   ├── technical_specs.md      # Technical specifications
-│   ├── epics_and_stories.md    # Feature breakdown
-│   ├── task_breakdown.md       # Implementation tasks
-│   ├── risks.md                # Risk management
-│   ├── development_workflow.md # Development process
-│   └── deployment.md           # Installation guide
-├── src/                        # Source code
+│   ├── deployment.md           # Deployment guide
+│   ├── model_selection_rationale.md # AI model selection
+│   │
+│   ├── guides/                 # 📖 User guides
+│   │   ├── QUICKSTART.md
+│   │   ├── AUTHENTICATION_GUIDE.md
+│   │   ├── NOTIFICATION_SYSTEM.md
+│   │   ├── NOTIFICATION_QUICKSTART.md
+│   │   ├── YOLO_INTEGRATION_GUIDE.md
+│   │   └── HARDWARE_UPGRADES.md
+│   │
+│   ├── development/            # 💻 Development docs
+│   │   ├── development_workflow.md
+│   │   └── contributing.md
+│   │
+│   ├── planning/               # 📋 Project planning
+│   │   ├── epics_and_stories.md
+│   │   ├── task_breakdown.md
+│   │   └── risks.md
+│   │
+│   └── milestones/             # 🎉 Completion summaries
+│       ├── PHASE1_COMPLETE.md
+│       ├── EPIC4_NOTIFICATION_SYSTEM_COMPLETE.md
+│       ├── EPIC5_COMPLETE.md
+│       ├── EPIC6_COMPLETE.md
+│       └── INTEGRATION_COMPLETE.md
+│
+├── project/                    # 📊 Project tracking
+│   ├── project_status.md       # Current status
+│   ├── activity_log.md         # Development history
+│   └── ...                     # Other tracking docs
+│
+├── src/                        # 💻 Source code
 │   ├── services/               # Core service implementations
-│   │   ├── auth_service.py     # Authentication & user management
-│   │   ├── encryption_service.py # Data encryption & TLS
-│   │   ├── privacy_service.py  # GDPR compliance & privacy
+│   │   ├── auth_service.py     # Authentication & JWT
+│   │   ├── encryption_service.py # Encryption & TLS
+│   │   ├── privacy_service.py  # GDPR & privacy
 │   │   ├── database_service.py # Database operations
-│   │   └── ...                 # Other services
-│   ├── web/                    # Web dashboard
+│   │   ├── motion_detection_service.py
+│   │   ├── object_detection_service.py
+│   │   └── notification_manager.py
+│   │
+│   ├── web/                    # 🌐 Web dashboard
 │   │   ├── app.py              # Flask application
 │   │   ├── api/                # REST API endpoints
 │   │   ├── templates/          # HTML templates
 │   │   └── static/             # CSS, JS, images
+│   │
 │   └── utils/                  # Utility modules
-├── tests/                      # Test suite
+│
+├── tests/                      # 🧪 Test suite
 │   ├── unit/                   # Unit tests
 │   ├── integration/            # Integration tests
 │   └── hardware/               # Hardware tests
-└── scripts/                    # Utility and test scripts
-    ├── live_detection_with_notifications.py  # Main detection system
-    ├── run_dashboard.py                      # Web dashboard launcher
-    ├── epic6_cli.py                          # Security management CLI
-    └── test_*.py                             # Various test scripts
+│
+└── scripts/                    # 🔧 Utility scripts
+    ├── live_detection_with_notifications.py
+    ├── run_dashboard.py        # HTTP dashboard
+    ├── run_dashboard_https.py  # HTTPS dashboard
+    ├── setup_https.py          # Certificate setup
+    ├── security_audit.py       # Security checker
+    ├── epic6_cli.py            # User management CLI
+    └── test_*.py               # Test scripts
 ```
 
 ## 🎯 Current Status
@@ -259,10 +311,10 @@ Before deploying to production:
 ## 🛠️ Development
 
 ### Getting Started
-1. Read the [Development Workflow](docs/development_workflow.md)
+1. Read the [Development Workflow](docs/development/development_workflow.md)
 2. Set up your development environment
-3. Review the [Task Breakdown](docs/task_breakdown.md) for implementation details
-4. Check [Contributing Guidelines](contributing.md) for contribution process
+3. Review the [Task Breakdown](docs/planning/task_breakdown.md) for implementation details
+4. Check [Contributing Guidelines](docs/development/contributing.md) for contribution process
 
 ### Key Technologies
 - **Hardware**: Raspberry Pi 5, Pi Camera Module (IMX708)
@@ -285,11 +337,11 @@ This system is designed with enterprise-grade security and privacy:
 - **GDPR Compliant**: Built-in privacy controls, data export, and audit logging
 - **Security Auditing**: Automated security audit tools included
 
-**See [Authentication Guide](docs/AUTHENTICATION_GUIDE.md) for complete security documentation.**
+**See [Authentication Guide](docs/guides/AUTHENTICATION_GUIDE.md) for complete security documentation.**
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guidelines](contributing.md) for details on:
+We welcome contributions! Please see our [Contributing Guidelines](docs/development/contributing.md) for details on:
 - Development workflow
 - Code style guidelines
 - Testing requirements
