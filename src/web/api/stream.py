@@ -5,6 +5,7 @@ import cv2
 import logging
 import time
 from threading import Lock
+from src.web.api.auth import require_auth
 
 logger = logging.getLogger(__name__)
 
@@ -77,6 +78,7 @@ def generate_frames():
 
 
 @stream_bp.route('/live', methods=['GET'])
+@require_auth
 def live_stream():
     """
     Live MJPEG video stream endpoint.
@@ -107,6 +109,7 @@ def live_stream():
 
 
 @stream_bp.route('/snapshot', methods=['GET'])
+@require_auth
 def snapshot():
     """
     Get current frame snapshot as JPEG.
@@ -142,6 +145,7 @@ def snapshot():
 
 
 @stream_bp.route('/status', methods=['GET'])
+@require_auth
 def stream_status():
     """Get streaming status information."""
     try:

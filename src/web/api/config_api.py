@@ -4,6 +4,7 @@ from flask import Blueprint, request, jsonify, current_app
 import yaml
 import logging
 from pathlib import Path
+from src.web.api.auth import require_auth, require_role
 
 logger = logging.getLogger(__name__)
 
@@ -11,6 +12,7 @@ config_bp = Blueprint('config', __name__)
 
 
 @config_bp.route('/', methods=['GET'])
+@require_auth
 def get_config():
     """Get current system configuration."""
     try:
@@ -25,6 +27,7 @@ def get_config():
 
 
 @config_bp.route('/<section>', methods=['GET'])
+@require_auth
 def get_config_section(section):
     """Get specific configuration section."""
     try:
@@ -44,9 +47,10 @@ def get_config_section(section):
 
 
 @config_bp.route('/<section>', methods=['PUT'])
+@require_role('admin')
 def update_config_section(section):
     """
-    Update configuration section.
+    Update configuration section (admin only).
     TODO: Implement configuration validation and persistence.
     This endpoint is reserved for Epic 6 (admin authentication required).
     """

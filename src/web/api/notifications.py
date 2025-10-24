@@ -2,6 +2,7 @@
 
 from flask import Blueprint, request, jsonify, current_app
 import logging
+from src.web.api.auth import require_auth
 
 logger = logging.getLogger(__name__)
 
@@ -9,6 +10,7 @@ notifications_bp = Blueprint('notifications', __name__)
 
 
 @notifications_bp.route('/', methods=['GET'])
+@require_auth
 def get_notifications():
     """
     Get notification history.
@@ -33,6 +35,7 @@ def get_notifications():
 
 
 @notifications_bp.route('/stats', methods=['GET'])
+@require_auth
 def get_notification_stats():
     """
     Get notification statistics.

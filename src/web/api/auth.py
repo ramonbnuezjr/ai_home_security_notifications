@@ -29,14 +29,21 @@ def require_auth(f):
     """Decorator to require authentication"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        # Try to get token from Authorization header
         auth_header = request.headers.get('Authorization')
+        token = None
         
-        if not auth_header or not auth_header.startswith('Bearer '):
-            return jsonify({'error': 'Missing or invalid authorization header'}), 401
+        if auth_header and auth_header.startswith('Bearer '):
+            token = auth_header.split(' ')[1]
         
-        token = auth_header.split(' ')[1]
+        # If no header token, check query parameter (for streaming endpoints)
+        if not token:
+            token = request.args.get('token')
+        
+        if not token:
+            return jsonify({'error': 'Missing or invalid authorization'}), 401
+        
         auth_service = get_auth_service()
-        
         is_valid, user, errors = auth_service.verify_token(token)
         
         if not is_valid:

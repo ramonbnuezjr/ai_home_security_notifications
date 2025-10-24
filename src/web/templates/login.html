@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AI Security System</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔒</text></svg>">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+        }
+        
+        .login-card {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            width: 100%;
+            max-width: 420px;
+            padding: 3rem;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .login-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .login-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .form-error {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--danger-color);
+        }
+        
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-checkbox input {
+            width: 1rem;
+            height: 1rem;
+            cursor: pointer;
+        }
+        
+        .form-checkbox label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 0.875rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-login:hover:not(:disabled) {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-login:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .login-footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .login-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .alert-info {
+            background-color: #dbeafe;
+            color: #1e40af;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .alert-error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+        
+        .alert-success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid #10b981;
+        }
+        
+        .mfa-section {
+            display: none;
+        }
+        
+        .mfa-section.active {
+            display: block;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 0.5rem;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-icon">🔒</div>
+                <h1 class="login-title">AI Security System</h1>
+                <p class="login-subtitle">Sign in to access your dashboard</p>
+            </div>
+            
+            <!-- Alert messages -->
+            <div id="alert-container"></div>
+            
+            <!-- First-time setup info -->
+            <div id="first-user-info" class="alert alert-info" style="display: none;">
+                <strong>First-time setup:</strong> Create your admin account to get started.
+            </div>
+            
+            <!-- Login Form -->
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label" for="username">Username</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        class="form-input" 
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="form-input" 
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+                </div>
+                
+                <!-- MFA Section (hidden by default) -->
+                <div id="mfa-section" class="mfa-section">
+                    <div class="form-group">
+                        <label class="form-label" for="mfa-code">Authenticator Code</label>
+                        <input 
+                            type="text" 
+                            id="mfa-code" 
+                            name="mfa_code" 
+                            class="form-input" 
+                            placeholder="Enter 6-digit code"
+                            maxlength="6"
+                            pattern="[0-9]{6}"
+                        >
+                    </div>
+                </div>
+                
+                <div class="form-checkbox">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Remember me for 30 days</label>
+                </div>
+                
+                <button type="submit" id="login-btn" class="btn-login">
+                    Sign In
+                </button>
+            </form>
+            
+            <div class="login-footer">
+                <p id="first-user-footer" style="display: none;">
+                    No account yet? <a href="#" id="show-register">Create admin account</a>
+                </p>
+                <p style="margin-top: 1rem; font-size: 0.75rem;">
+                    Built with ❤️ for privacy-focused security
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Check if this is first user setup
+        async function checkFirstUser() {
+            try {
+                const response = await fetch('/api/auth/check-first-user');
+                const data = await response.json();
+                
+                if (data.is_first_user) {
+                    document.getElementById('first-user-info').style.display = 'block';
+                    document.getElementById('first-user-footer').style.display = 'block';
+                    document.querySelector('.login-subtitle').textContent = 'Create your admin account';
+                    document.getElementById('login-btn').textContent = 'Create Admin Account';
+                }
+            } catch (error) {
+                console.error('Failed to check first user:', error);
+            }
+        }
+        
+        // Show alert message
+        function showAlert(message, type = 'error') {
+            const alertContainer = document.getElementById('alert-container');
+            alertContainer.innerHTML = `
+                <div class="alert alert-${type}">
+                    ${message}
+                </div>
+            `;
+            
+            // Auto-hide success messages after 3 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    alertContainer.innerHTML = '';
+                }, 3000);
+            }
+        }
+        
+        // Handle login form submission
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const loginBtn = document.getElementById('login-btn');
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const mfaCode = document.getElementById('mfa-code').value;
+            
+            // Disable button and show loading
+            loginBtn.disabled = true;
+            const originalText = loginBtn.textContent;
+            loginBtn.innerHTML = '<span class="loading-spinner"></span>Signing in...';
+            
+            try {
+                // Check if this is first user (registration mode)
+                const checkResponse = await fetch('/api/auth/check-first-user');
+                const checkData = await checkResponse.json();
+                
+                let endpoint = '/api/auth/login';
+                let requestBody = { username, password };
+                
+                if (checkData.is_first_user) {
+                    // First user - register as admin
+                    endpoint = '/api/auth/register';
+                    requestBody.role = 'admin';
+                }
+                
+                // Add MFA code if provided
+                if (mfaCode) {
+                    requestBody.mfa_code = mfaCode;
+                }
+                
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Store JWT token
+                    localStorage.setItem('auth_token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    showAlert('Login successful! Redirecting...', 'success');
+                    
+                    // Redirect to dashboard
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 1000);
+                    
+                } else if (data.requires_mfa) {
+                    // Show MFA input
+                    document.getElementById('mfa-section').classList.add('active');
+                    document.getElementById('mfa-code').focus();
+                    showAlert('Please enter your authenticator code', 'info');
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = originalText;
+                    
+                } else {
+                    // Show error
+                    const errorMessage = data.errors ? data.errors.join(', ') : 'Login failed';
+                    showAlert(errorMessage, 'error');
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = originalText;
+                }
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                showAlert('An error occurred. Please try again.', 'error');
+                loginBtn.disabled = false;
+                loginBtn.textContent = originalText;
+            }
+        });
+        
+        // Handle show register link (for first-time setup)
+        document.getElementById('show-register')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            showAlert('Simply enter your desired username and password above to create the admin account.', 'info');
+        });
+        
+        // Check for existing token on page load
+        const existingToken = localStorage.getItem('auth_token');
+        if (existingToken) {
+            // Verify token is still valid
+            fetch('/api/auth/verify', {
+                headers: {
+                    'Authorization': `Bearer ${existingToken}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Token is valid, redirect to dashboard
+                    window.location.href = '/';
+                } else {
+                    // Token invalid, clear it
+                    localStorage.removeItem('auth_token');
+                    localStorage.removeItem('user');
+                }
+            })
+            .catch(() => {
+                // Error verifying, clear token
+                localStorage.removeItem('auth_token');
+                localStorage.removeItem('user');
+            });
+        }
+        
+        // Initialize
+        checkFirstUser();
+    </script>
+</body>
+</html>
+

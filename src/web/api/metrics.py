@@ -4,6 +4,7 @@ from flask import Blueprint, request, jsonify, current_app
 from datetime import datetime, timedelta
 import psutil
 import logging
+from src.web.api.auth import require_auth
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +46,7 @@ def get_current_system_metrics():
 
 
 @metrics_bp.route('/current', methods=['GET'])
+@require_auth
 def get_current_metrics():
     """Get current system status."""
     try:
@@ -70,6 +72,7 @@ def get_current_metrics():
 
 
 @metrics_bp.route('/history', methods=['GET'])
+@require_auth
 def get_metrics_history():
     """
     Get historical system metrics.
@@ -113,6 +116,7 @@ def get_metrics_history():
 
 
 @metrics_bp.route('/health', methods=['GET'])
+@require_auth
 def health_check():
     """System health check."""
     try:
@@ -158,6 +162,7 @@ def health_check():
 
 
 @metrics_bp.route('/database', methods=['GET'])
+@require_auth
 def database_stats():
     """Get database statistics."""
     try:

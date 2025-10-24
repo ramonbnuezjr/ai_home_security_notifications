@@ -3,6 +3,7 @@
 from flask import Blueprint, request, jsonify, current_app
 from datetime import datetime
 import logging
+from src.web.api.auth import require_auth, require_role
 
 logger = logging.getLogger(__name__)
 
@@ -10,6 +11,7 @@ events_bp = Blueprint('events', __name__)
 
 
 @events_bp.route('/', methods=['GET'])
+@require_auth
 def get_events():
     """
     Get list of events with pagination and filtering.
@@ -70,6 +72,7 @@ def get_events():
 
 
 @events_bp.route('/<int:event_id>', methods=['GET'])
+@require_auth
 def get_event(event_id):
     """Get specific event by ID with detected objects."""
     try:
@@ -87,6 +90,7 @@ def get_event(event_id):
 
 
 @events_bp.route('/<int:event_id>', methods=['DELETE'])
+@require_role('admin')
 def delete_event(event_id):
     """Delete event by ID (admin only)."""
     try:
@@ -104,6 +108,7 @@ def delete_event(event_id):
 
 
 @events_bp.route('/stats', methods=['GET'])
+@require_auth
 def get_event_stats():
     """
     Get event statistics.
@@ -125,6 +130,7 @@ def get_event_stats():
 
 
 @events_bp.route('/stream', methods=['GET'])
+@require_auth
 def event_stream():
     """
     Server-Sent Events endpoint for real-time event updates.

@@ -6,13 +6,34 @@ const API = {
     // Helper function for fetch requests
     async request(endpoint, options = {}) {
         try {
+            // Get JWT token from localStorage
+            const token = localStorage.getItem('auth_token');
+            
+            const headers = {
+                'Content-Type': 'application/json',
+                ...options.headers
+            };
+            
+            // Add Authorization header if token exists
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+            
             const response = await fetch(`${this.baseURL}${endpoint}`, {
                 ...options,
-                headers: {
-                    'Content-Type': 'application/json',
-                    ...options.headers
-                }
+                headers
             });
+            
+            // Handle 401 unauthorized
+            if (response.status === 401) {
+                // Clear auth and redirect to login
+                localStorage.removeItem('auth_token');
+                localStorage.removeItem('user');
+                if (window.location.pathname !== '/login') {
+                    window.location.href = '/login';
+                }
+                throw new Error('Unauthorized - please login');
+            }
             
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -72,10 +93,20 @@ const API = {
     // Stream API
     stream: {
         getLiveURL() {
+            // Add token as query parameter for video streaming (since img src can't send headers)
+            const token = localStorage.getItem('auth_token');
+            if (token) {
+                return `${API.baseURL}/api/stream/live?token=${encodeURIComponent(token)}`;
+            }
             return `${API.baseURL}/api/stream/live`;
         },
         
         getSnapshotURL() {
+            // Add token as query parameter for image snapshot
+            const token = localStorage.getItem('auth_token');
+            if (token) {
+                return `${API.baseURL}/api/stream/snapshot?token=${encodeURIComponent(token)}`;
+            }
             return `${API.baseURL}/api/stream/snapshot`;
         },
         
