@@ -59,6 +59,7 @@ python_packages:
   - redis>=4.5.0
   - flask>=2.3.0
   - gunicorn>=21.0.0
+  - google-cloud-texttospeech>=2.14.0  # Optional: HAL 9000 voice
 
 note:
   - Virtual environment must be created with --system-site-packages flag
@@ -171,7 +172,13 @@ notification_service:
 - **Email**: SMTP (Gmail, Outlook, custom SMTP)
 - **SMS**: Twilio API, AWS SNS
 - **Push Notifications**: Firebase Cloud Messaging
-- **Voice**: Text-to-Speech via local synthesis
+- **Voice**: 
+  - **Primary**: espeak TTS (local synthesis, always available)
+  - **Enhanced**: Google Cloud TTS with HAL 9000 voice characteristics (optional)
+    - Neural2 voices with custom prosody (pitch: -10dB, rate: 0.90)
+    - 80+ pre-synthesized phrases cached locally
+    - Custom synthesis for dynamic content
+    - Graceful fallback to espeak on API failure
 
 ### Data Formats
 ```yaml

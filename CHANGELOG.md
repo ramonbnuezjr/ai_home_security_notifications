@@ -7,6 +7,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- **HAL 9000 Voice Layer**: Premium voice notification system using Google Cloud TTS
+  - HAL-style voice characteristics (deep pitch, slow cadence)
+  - 80+ pre-synthesized security phrases in `src/voice/hal_phrases.yaml`
+  - Standalone voice library generator script
+  - Local caching of audio files for instant playback
+  - Graceful fallback to espeak when Google TTS unavailable
+  - Comprehensive setup guide in `README_HAL_SETUP.md`
 - Created CHANGELOG.md to track project changes
 
 ## [1.0.1] - 2025-10-16

@@ -8,6 +8,8 @@ The AI Home Security Notifications system provides multi-channel alerting for se
 - 📱 **SMS** - Text messages via Twilio
 - 🔔 **Push Notifications** - Mobile notifications via Firebase
 - 🔊 **Voice Alerts** - Spoken alerts using text-to-speech
+  - Primary: espeak TTS (always available)
+  - Enhanced: HAL 9000 Voice Layer (optional Google Cloud TTS)
 
 ## Architecture
 
@@ -143,6 +145,39 @@ The system supports multiple TTS engines:
    ```bash
    sudo apt-get install festival
    ```
+
+#### HAL 9000 Voice Layer (Optional Premium Enhancement)
+
+For enhanced voice notifications with HAL 9000 characteristics, you can optionally enable the Google Cloud TTS integration:
+
+**Features:**
+- Premium Neural2 voice quality
+- HAL 9000 voice characteristics (deep pitch, slow cadence)
+- 80+ pre-synthesized security phrases for instant playback
+- Local caching (no API calls for common phrases)
+- Graceful fallback to espeak if unavailable
+
+**Setup:**
+```bash
+# 1. Install Google Cloud TTS
+pip install google-cloud-texttospeech
+
+# 2. Set up Google Cloud credentials
+export GOOGLE_APPLICATION_CREDENTIALS="/path/to/service-account-key.json"
+
+# 3. Generate voice library (one-time setup)
+python scripts/generate_hal_voice_library_standalone.py
+
+# See README_HAL_SETUP.md for complete instructions
+```
+
+**Phrase Examples:**
+- "Motion detected in surveillance zone"
+- "A person has been identified in the monitored area"
+- "Threat level elevated. Recommend immediate attention"
+- "All systems nominal. No threats detected"
+
+**Cost:** ~$0.05 for initial library generation, <$1/month for occasional custom synthesis
 
 ### Throttling Configuration
 

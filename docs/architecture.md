@@ -35,6 +35,10 @@ The AI Home Security Notifications system is designed to provide intelligent mot
 4. **AI Classification**: Object detection and threat assessment
 5. **Event Processing**: Decision logic for notification triggers
 6. **Notification Delivery**: Multi-channel alerts (email, SMS, voice)
+   - Voice notifications use espeak (primary) or HAL 9000 Voice Layer (optional)
+   - HAL voice provides pre-synthesized phrases for instant playback
+   - Cached audio files (~80+ security phrases) stored in `src/voice/hal_audio/`
+   - Fallback to espeak if Google Cloud TTS unavailable
 
 ### Secondary Data Flows
 - **Configuration Management**: Runtime parameter updates
@@ -48,6 +52,7 @@ The AI Home Security Notifications system is designed to provide intelligent mot
 - **Video Storage**: Circular buffer with configurable retention (default: 7 days)
 - **Event Database**: SQLite for event logs, metadata, and configuration
 - **Model Storage**: Local AI model files and weights
+- **Voice Audio Cache**: Pre-synthesized HAL voice phrases (~5MB total)
 
 ### Data Retention Policies
 - **Raw Video**: 24-48 hours (configurable)
@@ -93,6 +98,9 @@ The AI Home Security Notifications system is designed to provide intelligent mot
 2. **Detection Service**: Handles motion detection algorithms
 3. **AI Service**: Manages model inference and classification
 4. **Notification Service**: Handles multi-channel alert delivery
+   - Email/SMS/Push notifications
+   - Voice alerts (espeak TTS - primary)
+   - HAL 9000 Voice Layer (Google Cloud TTS - optional premium)
 5. **Storage Service**: Manages data retention and cleanup
 6. **Web Service**: Provides dashboard and configuration interface
 

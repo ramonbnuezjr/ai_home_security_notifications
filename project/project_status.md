@@ -33,6 +33,11 @@
 - [x] Email notification service (SMTP with HTML templates)
 - [x] SMS notification service (Twilio integration)
 - [x] Voice notifications (TTS with pyttsx3/espeak)
+- [x] HAL 9000 Voice Layer (Google Cloud TTS - optional premium enhancement)
+  - 80+ pre-synthesized security phrases
+  - HAL voice characteristics (deep pitch, slow cadence)
+  - Local caching for instant playback
+  - Graceful fallback to espeak
 - [x] Push notifications (Firebase Cloud Messaging)
 - [x] Notification manager with throttling and queuing
 - [x] Multi-channel coordination

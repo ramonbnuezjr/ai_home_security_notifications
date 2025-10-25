@@ -40,6 +40,7 @@ Create a privacy-focused, locally-processed home security solution that combines
   - Async delivery with queue management
   - Rich notifications with images and metadata
   - Working voice alerts with espeak TTS 🤖
+  - **HAL 9000 Voice Layer**: Premium Google Cloud TTS with HAL voice characteristics 🎙️
 - ✅ **Privacy-First Design**: All processing performed locally on Pi 5 (16GB RAM)
 - 🔄 **Web Dashboard**: Live video feed, event history, and system configuration (In Progress)
 - ✅ **Modular Architecture**: Easy to extend and customize
@@ -131,6 +132,17 @@ Create a privacy-focused, locally-processed home security solution that combines
    python scripts/epic6_cli.py audit logs
    ```
 
+11. **Optional: Setup HAL 9000 Voice** (Enhanced Voice Notifications 🎙️)
+   ```bash
+   # Setup Google Cloud TTS credentials
+   export GOOGLE_APPLICATION_CREDENTIALS="/path/to/service-account-key.json"
+   
+   # Generate HAL voice library (one-time setup)
+   python scripts/generate_hal_voice_library_standalone.py
+   
+   # See README_HAL_SETUP.md for full instructions
+   ```
+
 ## 📚 Documentation
 
 ### Core Documentation
@@ -147,6 +159,7 @@ Create a privacy-focused, locally-processed home security solution that combines
 - **[Notification Quick Start](docs/guides/NOTIFICATION_QUICKSTART.md)** - 5-minute notification setup
 - **[YOLO Integration Guide](docs/guides/YOLO_INTEGRATION_GUIDE.md)** - AI object detection setup
 - **[Hardware Upgrades](docs/guides/HARDWARE_UPGRADES.md)** - Performance optimization guide
+- **[HAL 9000 Voice Setup](README_HAL_SETUP.md)** - 🎙️ Premium voice notifications with Google TTS
 
 ### Development
 - **[Development Workflow](docs/development/development_workflow.md)** - Development environment, testing, and CI/CD
@@ -246,6 +259,7 @@ ai_home_security_notifications/
     ├── setup_https.py          # Certificate setup
     ├── security_audit.py       # Security checker
     ├── epic6_cli.py            # User management CLI
+    ├── generate_hal_voice_library_standalone.py  # HAL voice generator
     └── test_*.py               # Test scripts
 ```
 
@@ -259,6 +273,7 @@ ai_home_security_notifications/
 - ✅ **Epic 3: AI Classification** - YOLOv8s object detection (80 classes, ~1-2 FPS on CPU)
 - ✅ **Epic 4: Notification System** - Multi-channel alerts (Email, SMS, Push, Voice)
   - Voice notifications fully operational with espeak
+  - HAL 9000 Voice Layer available (Google Cloud TTS)
   - Email/SMS/Push configured (need credentials)
   - Intelligent throttling and async delivery
 - ✅ **Epic 5: Web Dashboard & Monitoring** - Complete web interface

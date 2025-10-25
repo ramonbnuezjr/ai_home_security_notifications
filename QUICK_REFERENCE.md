@@ -43,7 +43,8 @@ python scripts/run_dashboard.py
 
 | Service | Status | Setup |
 |---------|--------|-------|
-| Voice | ✅ Working | espeak installed |
+| Voice (espeak) | ✅ Working | espeak installed |
+| HAL Voice | 🎙️ Optional | See README_HAL_SETUP.md |
 | Email | ⚙️ Needs config | Edit config YAML |
 | SMS | ⚙️ Needs config | Twilio account |
 | Push | ⚙️ Needs config | Firebase setup |
@@ -54,12 +55,34 @@ python scripts/run_dashboard.py
 Main script:       scripts/live_detection_with_notifications.py
 Web dashboard:     scripts/run_dashboard.py
 Security CLI:      scripts/epic6_cli.py
+HAL Voice:         scripts/generate_hal_voice_library_standalone.py
 Config:            config/system_config.yaml
 Database:          /home/ramon/security_data/database/security.db
 Test email:        scripts/test_email_notification.py
 Test all notifs:   scripts/test_notifications.py
 Documentation:     docs/NOTIFICATION_SYSTEM.md
+HAL Setup Guide:   README_HAL_SETUP.md
 ```
+
+## 🎙️ HAL 9000 Voice (Optional)
+
+```bash
+# Setup (one-time)
+export GOOGLE_APPLICATION_CREDENTIALS="/path/to/service-account-key.json"
+
+# Generate voice library
+python scripts/generate_hal_voice_library_standalone.py
+
+# See full guide
+cat README_HAL_SETUP.md
+```
+
+**Features:**
+- Premium Google Cloud TTS
+- HAL 9000 voice characteristics
+- 80+ pre-synthesized phrases
+- Instant playback (cached)
+- Graceful espeak fallback
 
 ## 🔒 Security Management (Epic 6 - Testing Phase)
 
