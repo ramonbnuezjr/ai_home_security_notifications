@@ -19,6 +19,7 @@ from .email_notification_service import EmailNotificationService
 from .sms_notification_service import SMSNotificationService
 from .push_notification_service import PushNotificationService
 from .voice_notification_service import VoiceNotificationService
+from .hal_notification_service import HALNotificationService
 from ..utils.config import Config
 from ..utils.logger import get_logger
 
@@ -182,11 +183,17 @@ class NotificationManager:
             self.logger.error(f'Failed to initialize push service: {e}')
         
         try:
-            # Voice notification service
-            voice_service = VoiceNotificationService(self.config)
-            if voice_service.initialize():
-                self.services['voice'] = voice_service
-                self.logger.info('Voice notification service registered')
+            # HAL voice notification service (preferred)
+            hal_service = HALNotificationService(self.config)
+            if hal_service.initialize():
+                self.services['voice'] = hal_service
+                self.logger.info('HAL voice notification service registered')
+            else:
+                # Fallback to espeak if HAL not available
+                voice_service = VoiceNotificationService(self.config)
+                if voice_service.initialize():
+                    self.services['voice'] = voice_service
+                    self.logger.info('Voice notification service (espeak) registered')
             
         except Exception as e:
             self.logger.error(f'Failed to initialize voice service: {e}')
