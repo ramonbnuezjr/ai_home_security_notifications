@@ -1,0 +1,82 @@
+# HAL 9000 Security System Phrases
+# Organized by category for AI home security notifications
+# Each phrase is optimized for Google Cloud TTS synthesis (5-15 words)
+
+hal_phrases:
+  # Motion and Object Detection
+  detection:
+    motion_detected: "Motion detected in surveillance zone"
+    person_identified: "A person has been identified in the monitored area"
+    multiple_persons: "Multiple individuals detected in frame"
+    unknown_object: "Unidentified object detected in view"
+    threat_level_high: "Threat level elevated. Recommend immediate attention"
+    threat_level_medium: "Moderate threat level detected"
+    threat_level_low: "Low priority alert registered"
+    object_detected: "Object detected in monitored frame"
+    vehicle_detected: "Vehicle approaching perimeter"
+    animal_detected: "Animal movement detected"
+    package_detected: "Package or delivery item identified"
+    loitering_detected: "Extended presence detected in restricted zone"
+
+  # Clearance and All-Clear Messages
+  clearance:
+    motion_cleared: "Motion has cleared. Zone returned to baseline"
+    all_clear: "All systems nominal. No threats detected"
+    threat_cleared: "Threat has been assessed and neutralized"
+    zone_clear: "Surveillance zone now clear"
+    false_alarm: "False alarm detected. Resuming normal operations"
+
+  # System Status
+  system:
+    startup: "System online. I'm fully operational and all my circuits are functioning perfectly"
+    shutdown: "Initiating system shutdown sequence"
+    online: "Security system is online and monitoring"
+    offline: "System going offline"
+    standby: "Entering standby mode"
+    active: "Active monitoring engaged"
+    armed: "Security system armed"
+    disarmed: "Security system disarmed"
+    maintenance: "Entering maintenance mode"
+
+  # Status Inquiries and Health Checks
+  inquiries:
+    status_check: "System status is nominal. All sensors operational"
+    camera_check: "Camera systems are operational and recording"
+    storage_check: "Storage systems operational with adequate capacity"
+    system_health: "All systems functioning within normal parameters"
+    connectivity_ok: "Network connectivity confirmed"
+    battery_ok: "Backup power systems operational"
+    temperature_ok: "System temperature within acceptable range"
+
+  # Alerts and Warnings
+  alerts:
+    immediate_attention: "Immediate attention required"
+    review_footage: "Recommend reviewing recorded footage"
+    check_perimeter: "Perimeter check recommended"
+    verify_identity: "Identity verification required"
+    contact_authorities: "Consider contacting authorities"
+
+  # Time-based Greetings
+  greetings:
+    good_morning: "Good morning. System ready for the day"
+    good_afternoon: "Good afternoon. All systems monitoring"
+    good_evening: "Good evening. Transitioning to night mode"
+    good_night: "Good night. Maintaining vigilance"
+
+  # Errors and Issues
+  errors:
+    camera_error: "Camera malfunction detected. Diagnostic required"
+    storage_full: "Storage capacity approaching critical level"
+    network_error: "Network connectivity interrupted"
+    sensor_error: "Sensor anomaly detected"
+    power_warning: "Switching to backup power systems"
+    system_error: "System anomaly detected. Initiating diagnostics"
+
+  # User Interactions
+  interactions:
+    acknowledged: "Command acknowledged"
+    processing: "Processing your request"
+    complete: "Operation complete"
+    standby_ready: "Standing by for further instructions"
+    unable_to_comply: "I'm sorry, I'm unable to comply with that request"
+    dave_response: "I'm sorry Dave, I'm afraid I can't do that"

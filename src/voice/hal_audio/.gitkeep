@@ -1,0 +1,2 @@
+# This file ensures the hal_audio directory is tracked by git
+# Synthesized audio files (*.mp3) are cached here by generate_hal_voice_library.py

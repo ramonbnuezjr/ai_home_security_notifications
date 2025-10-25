@@ -1,0 +1,26 @@
+# HAL 9000 Voice Layer - Text-to-Speech Dependencies
+# Install with: pip install -r requirements_tts.txt
+
+# Google Cloud Text-to-Speech
+google-cloud-texttospeech>=2.16.0
+
+# YAML parsing for phrase definitions
+pyyaml>=6.0
+
+# Google Cloud authentication
+google-auth>=2.23.0
+google-auth-oauthlib>=1.1.0
+
+# Audio file handling (if needed for advanced processing)
+pydub>=0.25.1
+
+# Already included in main requirements.txt but listed here for reference:
+# - requests>=2.31.0 (for HTTP requests if needed)
+# - typing_extensions>=4.5.0 (for enhanced type hints on Python < 3.10)
+
+# System dependencies (install via apt on Raspberry Pi):
+# - alsa-utils (for aplay audio playback)
+# - espeak (fallback TTS engine)
+#
+# Install with:
+# sudo apt-get install alsa-utils espeak
