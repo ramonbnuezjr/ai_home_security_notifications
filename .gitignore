@@ -35,3 +35,6 @@ output/
 # Environment variables
 .env
 
+src/voice/hal_audio/*.mp3
+src/voice/hal_audio/index.json
+!src/voice/hal_audio/.gitkeep
