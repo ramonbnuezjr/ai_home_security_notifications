@@ -1,5 +1,76 @@
 # Hardware Upgrade Guide
 
+## System Monitoring with Netdata
+
+### Real-Time Performance Monitoring
+
+**Install Netdata (recommended):**
+
+```bash
+# Update and install
+sudo apt-get update
+sudo apt-get install netdata -y
+
+# Configure network access
+sudo nano /etc/netdata/netdata.conf
+```
+
+**Find this line:**
+```ini
+bind socket to IP = 127.0.0.1
+```
+
+**Change to:**
+```ini
+bind socket to IP = 0.0.0.0
+```
+
+**Save and restart:**
+```bash
+# Save: Ctrl+O, Enter, Ctrl+X
+sudo systemctl restart netdata
+sudo systemctl enable netdata
+```
+
+**Access from your computer:**
+```
+http://192.168.7.210:19999
+```
+
+**What you'll see:**
+- ✅ Real-time CPU usage (per core)
+- ✅ RAM usage and availability
+- ✅ Temperature monitoring (critical for Pi 5)
+- ✅ YOLO process performance
+- ✅ Network traffic
+- ✅ Disk I/O
+- ✅ Updates every 1 second
+
+**Benefits:**
+- Monitor YOLO's impact on CPU/RAM while it's running
+- Watch temperature to prevent throttling
+- See which processes are using resources
+- Mobile-friendly interface for remote monitoring
+
+**Temperature Alerts:**
+```bash
+# Edit health config
+sudo nano /etc/netdata/health.d/cpu_temp.conf
+```
+
+Add alert rules:
+```python
+alarm: cpu_temperature
+   on: cpu.cpu_temperature
+ calc: $temperature
+every: 10s
+ warn: $this > 75
+ crit: $this > 80
+ info: CPU temperature monitoring
+```
+
+---
+
 ## Current System Performance
 
 ### Pi 5 16GB (CPU-Only) - Current Setup

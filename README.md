@@ -132,7 +132,23 @@ Create a privacy-focused, locally-processed home security solution that combines
    python scripts/epic6_cli.py audit logs
    ```
 
-11. **Optional: Setup HAL 9000 Voice** (Enhanced Voice Notifications 🎙️)
+11. **Optional: Setup Real-Time Monitoring** (Netdata 📊)
+   ```bash
+   # Install Netdata
+   sudo apt-get update
+   sudo apt-get install netdata -y
+   
+   # Configure network access
+   sudo nano /etc/netdata/netdata.conf
+   # Change: bind socket to IP = 0.0.0.0
+   
+   # Restart
+   sudo systemctl restart netdata
+   
+   # Access at: http://192.168.7.210:19999
+   ```
+
+12. **Optional: Setup HAL 9000 Voice** (Enhanced Voice Notifications 🎙️)
    ```bash
    # Setup Google Cloud TTS credentials
    export GOOGLE_APPLICATION_CREDENTIALS="/path/to/service-account-key.json"
@@ -158,7 +174,7 @@ Create a privacy-focused, locally-processed home security solution that combines
 - **[Notification System Guide](docs/guides/NOTIFICATION_SYSTEM.md)** - Comprehensive notification setup
 - **[Notification Quick Start](docs/guides/NOTIFICATION_QUICKSTART.md)** - 5-minute notification setup
 - **[YOLO Integration Guide](docs/guides/YOLO_INTEGRATION_GUIDE.md)** - AI object detection setup
-- **[Hardware Upgrades](docs/guides/HARDWARE_UPGRADES.md)** - Performance optimization guide
+- **[Hardware Upgrades](docs/guides/HARDWARE_UPGRADES.md)** - Performance optimization & monitoring
 - **[HAL 9000 Voice Setup](README_HAL_SETUP.md)** - 🎙️ Premium voice notifications with Google TTS
 
 ### Development

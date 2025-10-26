@@ -18,6 +18,12 @@ python scripts/run_dashboard.py
 # Access at: http://localhost:5000 or http://<pi-ip>:5000
 ```
 
+### System Monitoring (Netdata)
+```bash
+# Access at: http://192.168.7.210:19999
+# Shows: CPU, RAM, temp, processes, network, disk I/O
+```
+
 ## 🎮 Controls (in video window)
 
 | Key | Action |
