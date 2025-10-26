@@ -34,6 +34,10 @@ class HALNotificationService(BaseNotificationService):
         # Audio player (mpg123 works best for MP3)
         self.audio_player = 'mpg123'
         
+        # USB audio detection
+        self.usb_speaker_card = None
+        self._detect_usb_audio()
+        
         # Phrase mapping (event types to HAL phrase files)
         self.phrase_map = {
             'motion_detected': 'detection_motion_detected',
@@ -57,6 +61,31 @@ class HALNotificationService(BaseNotificationService):
             'system_disarmed': 'system_disarmed',
             'immediate_attention': 'alerts_immediate_attention',
         }
+    
+    def _detect_usb_audio(self):
+        """Detect and configure USB audio devices."""
+        try:
+            result = subprocess.run(
+                ['aplay', '-l'],
+                capture_output=True,
+                text=True,
+                timeout=5
+            )
+            
+            if result.returncode == 0:
+                for line in result.stdout.split('\n'):
+                    # Look for USB audio devices
+                    if 'USB' in line or 'Audio' in line:
+                        # Extract card number
+                        parts = line.split()
+                        for i, part in enumerate(parts):
+                            if part == 'card' and i + 1 < len(parts):
+                                card_num = parts[i + 1].strip(':')
+                                self.usb_speaker_card = card_num
+                                self.logger.info(f"Auto-detected USB speaker: card {card_num}")
+                                break
+        except Exception as e:
+            self.logger.debug(f"USB audio detection: {e}")
     
     def _check_audio_player(self) -> bool:
         """Check if mpg123 is available."""
@@ -143,6 +172,7 @@ class HALNotificationService(BaseNotificationService):
     def _play_audio(self, audio_file: Path) -> bool:
         """
         Play audio file using mpg123.
+        Automatically uses USB audio if available, falls back to default.
         
         Args:
             audio_file: Path to audio file
@@ -151,11 +181,34 @@ class HALNotificationService(BaseNotificationService):
             True if playback succeeded, False otherwise
         """
         try:
-            result = subprocess.run(
-                [self.audio_player, '-q', str(audio_file)],
-                capture_output=True,
-                timeout=15
-            )
+            # Build command
+            cmd = [self.audio_player, '-q']
+            
+            # Use USB speaker if detected (card 2)
+            if self.usb_speaker_card:
+                # mpg123 doesn't support ALSA device selection directly
+                # Use ALSA device override via environment
+                cmd.append(str(audio_file))
+                env = {'ALSA_CARD': self.usb_speaker_card}
+            else:
+                cmd.append(str(audio_file))
+                env = None
+            
+            # Run with or without custom environment
+            if env:
+                result = subprocess.run(
+                    cmd,
+                    capture_output=True,
+                    timeout=15,
+                    env=env
+                )
+            else:
+                result = subprocess.run(
+                    cmd,
+                    capture_output=True,
+                    timeout=15
+                )
+            
             return result.returncode == 0
         except subprocess.TimeoutExpired:
             self.logger.error("Audio playback timed out")
