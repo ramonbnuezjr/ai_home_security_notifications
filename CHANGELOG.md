@@ -14,7 +14,47 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Local caching of audio files for instant playback
   - Graceful fallback to espeak when Google TTS unavailable
   - Comprehensive setup guide in `README_HAL_SETUP.md`
+- **HAL Voice Integration**: Fully integrated HAL voice into notification system
+  - Created `HALNotificationService` wrapper for notification manager
+  - Automatic USB audio device detection
+  - Context-aware phrase selection (person detected, motion, vehicles, etc.)
+  - Test script: `scripts/test_yolo_and_hal.py`
+  - Uses `mpg123` for superior MP3 playback (no more audio static)
+- **Netdata System Monitoring**: Real-time performance monitoring dashboard
+  - Install and configure Netdata for system monitoring
+  - Access at `http://192.168.7.210:19999`
+  - Monitor CPU, RAM, temperature, network, disk I/O
+  - Track YOLO process performance
+  - Temperature alert configuration
+- **Future Vision Documentation**: Long-term roadmap for personal AI assistant
+  - Created `docs/planning/PROPOSED_EPICS.md` with 14 new epics
+  - Created `docs/planning/FUTURE_VISION.md` for personal AI transformation
+  - Epic 7 (USB Audio): USB speaker/mic integration
+  - Epic 8 (Face Recognition): Family member detection
+  - Epic 10 (Hardware): Pironman 5-MAX case, NVMe storage
+  - Epic 11 (AI HAT): Hailo-8L acceleration for 20-30 FPS YOLO
+  - Vision for local LLM integration (Mistral 7B)
+  - Robotics roadmap (SunFounder Picar-X)
 - Created CHANGELOG.md to track project changes
+
+### Changed
+- **Notification Manager**: Updated to prioritize HAL voice over espeak
+  - Auto-detects HAL audio files vs espeak fallback
+  - Improved phrase mapping for security events
+  - Better audio playback using mpg123
+
+### Fixed
+- **Audio Playback**: Fixed audio static issue by using `mpg123` instead of `aplay`
+- **HAL Service**: Fixed missing abstract method implementation (`test_connection`)
+- **Notification Result**: Fixed incorrect parameter names (service → provider)
+
+### Documentation
+- **Main README**: Added step 11 for Netdata monitoring setup
+- **QUICK_REFERENCE.md**: Added monitoring URL and USB audio section
+- **HARDWARE_UPGRADES.md**: Added Netdata monitoring section with installation
+- **PROPOSED_EPICS.md**: Complete epic breakdown for Phase 2+ development
+- **FUTURE_VISION.md**: Personal AI assistant roadmap
+- **NEW_FEATURES_QUICK_START.md**: Quick reference for starting new features
 
 ## [1.0.1] - 2025-10-16
 
